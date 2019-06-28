@@ -21,6 +21,11 @@ namespace Restful.Web
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddOpenApiDocument(c =>
+            {
+                c.Title = "SwaggerGeneration";
+            });
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -34,6 +39,9 @@ namespace Restful.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
             }
             else
             {
