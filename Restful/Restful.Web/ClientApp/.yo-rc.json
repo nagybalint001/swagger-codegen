@@ -1,0 +1,25 @@
+{
+  "generator-ngx-rocket": {
+    "version": "6.2.1",
+    "props": {
+      "location": "path",
+      "strict": false,
+      "skipInstall": false,
+      "skipQuickstart": false,
+      "initGit": true,
+      "appName": "home-controller",
+      "target": ["web"],
+      "pwa": false,
+      "ui": "bootstrap",
+      "auth": true,
+      "lazy": true,
+      "angulartics": false,
+      "tools": ["prettier"],
+      "utility": [],
+      "projectName": "home-controller",
+      "packageManager": "npm",
+      "mobile": [],
+      "desktop": []
+    }
+  }
+}
