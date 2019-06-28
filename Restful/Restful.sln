@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restful.Web", "Restful.Web\Restful.Web.csproj", "{82954FAA-984B-400E-8CB3-28500A0BC8A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{3DB87B7E-5166-40D8-90F5-EAAF1E84C91E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82954FAA-984B-400E-8CB3-28500A0BC8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82954FAA-984B-400E-8CB3-28500A0BC8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82954FAA-984B-400E-8CB3-28500A0BC8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82954FAA-984B-400E-8CB3-28500A0BC8A8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{82954FAA-984B-400E-8CB3-28500A0BC8A8} = {3DB87B7E-5166-40D8-90F5-EAAF1E84C91E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61F6493C-A472-4933-BB10-FA9E3D8E6B6E}
+	EndGlobalSection
+EndGlobal
