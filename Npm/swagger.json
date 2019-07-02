@@ -1,0 +1,188 @@
+{
+  "x-generator": "NSwag v13.0.1.0 (NJsonSchema v10.0.19.0 (Newtonsoft.Json v11.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SwaggerGeneration",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    }
+  ],
+  "paths": {
+    "/api/Other/GetSomeData": {
+      "get": {
+        "tags": ["Other"],
+        "operationId": "Other_GetSomeData",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MyOtherSampleModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/DoSomething": {
+      "post": {
+        "tags": ["Other"],
+        "operationId": "Other_DoSomething",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MyOtherSampleModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Other/DoSomethingElse": {
+      "post": {
+        "tags": ["Other"],
+        "operationId": "Other_DoSomethingElse",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/SampleData/GetSomeData": {
+      "get": {
+        "tags": ["SampleData"],
+        "operationId": "SampleData_GetSomeData",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MySampleModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SampleData/DoSomething": {
+      "post": {
+        "tags": ["SampleData"],
+        "operationId": "SampleData_DoSomething",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MySampleModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/SampleData/DoSomethingElse": {
+      "post": {
+        "tags": ["SampleData"],
+        "operationId": "SampleData_DoSomethingElse",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MyOtherSampleModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "someString": {
+            "type": "string",
+            "nullable": true
+          },
+          "someDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "someInt": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "MySampleModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "someString": {
+            "type": "string",
+            "nullable": true
+          },
+          "someDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "someDateTimeOffset": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "someInt": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "someEnum": {
+            "$ref": "#/components/schemas/MyEnum"
+          },
+          "someFlagsEnum": {
+            "$ref": "#/components/schemas/MyFlagsEnum"
+          }
+        }
+      },
+      "MyEnum": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": ["First", "Second", "Third"],
+        "enum": [1, 2, 3]
+      },
+      "MyFlagsEnum": {
+        "type": "integer",
+        "description": "",
+        "x-enumFlags": true,
+        "x-enumNames": ["First", "Second", "Third", "Fourth", "Fifth"],
+        "enum": [1, 2, 4, 8, 16]
+      }
+    }
+  }
+}
