@@ -1,6 +1,10 @@
 # Swagger generation
 Swagger/OpenApi based Angular client generation samples
 
+Code generator: [NSwag generator](https://github.com/RicoSuter/NSwag)
+
+NSwag config generator: [NSwag Studio](https://github.com/RicoSuter/NSwag/wiki/NSwagStudio)
+
 ## .NET/MSBuild based samples
 
 The Angular client is generated during the build of the dotnet project (from the controllers, not from a swagger.json).
