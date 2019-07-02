@@ -6,39 +6,60 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Rpc.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts()
+        [HttpGet]
+        public IEnumerable<MySampleModel> GetSomeData()
         {
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return Enumerable.Range(1, 10).Select(index => new MySampleModel
             {
-                DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                SomeString = index.ToString(),
+                SomeDateTime = DateTime.Now,
+                SomeDateTimeOffset = DateTimeOffset.Now,
+                SomeEnum = MyEnum.Second,
+                SomeFlagsEnum = MyFlagsEnum.Fourth,
+                SomeInt = index,
             });
         }
 
-        public class WeatherForecast
+        [HttpPost]
+        public Task DoSomething([FromBody]MySampleModel request)
         {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
+            return Task.CompletedTask;
+        }
 
-            public int TemperatureF
-            {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
-            }
+        [HttpPost]
+        public void DoSomethingElse()
+        {
+        }
+
+        public enum MyEnum
+        {
+            First = 1,
+            Second = 2,
+            Third = 3,
+        }
+
+        [Flags]
+        public enum MyFlagsEnum
+        {
+            First = 1,
+            Second = 2,
+            Third = 4,
+            Fourth = 8,
+            Fifth = 16,
+        }
+
+        public class MySampleModel
+        {
+            public string SomeString { get; set; }
+            public DateTime SomeDateTime { get; set; }
+            public DateTimeOffset SomeDateTimeOffset { get; set; }
+            public int SomeInt { get; set; }
+            public MyEnum SomeEnum { get; set; }
+            public MyFlagsEnum SomeFlagsEnum { get; set; }
         }
     }
 }
