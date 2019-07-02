@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 
-import { SampleDataClient, WeatherForecast } from '@app/api/app.generated';
+import { SampleClient, MySampleModel } from '@app/api/app.generated';
 
 @Component({
   selector: 'app-home',
@@ -9,21 +9,21 @@ import { SampleDataClient, WeatherForecast } from '@app/api/app.generated';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  data: WeatherForecast[] | undefined;
+  data: MySampleModel[] | undefined;
   isLoading = false;
 
-  constructor(private sampleDataClient: SampleDataClient) {}
+  constructor(private sampleClient: SampleClient) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.sampleDataClient
-      .weatherForecasts()
+    this.sampleClient
+      .getAll()
       .pipe(
         finalize(() => {
           this.isLoading = false;
         })
       )
-      .subscribe((data: WeatherForecast[]) => {
+      .subscribe((data: MySampleModel[]) => {
         console.log(data);
         this.data = data;
       });
