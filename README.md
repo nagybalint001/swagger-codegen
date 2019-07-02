@@ -1,4 +1,4 @@
-# Swagger generation
+# Swagger codegen
 Swagger/OpenApi based Angular client generation samples
 
 Code generator: [NSwag generator](https://github.com/RicoSuter/NSwag)
@@ -9,12 +9,12 @@ NSwag config generator: [NSwag Studio](https://github.com/RicoSuter/NSwag/wiki/N
 
 The Angular client is generated during the build of the dotnet project (from the controllers, not from a swagger.json).
 
-Restful API [sample](https://github.com/nagybalint001/swagger-generation/tree/master/Restful)
+Restful API [sample](https://github.com/nagybalint001/swagger-codegen/tree/master/Restful)
 
-RPC style API [sample](https://github.com/nagybalint001/swagger-generation/tree/master/Rpc)
+RPC style API [sample](https://github.com/nagybalint001/swagger-codegen/tree/master/Rpc)
 
 ## NPM based sample
 
 To generate the Angular client you should run the `npm run swagger` command.
 
-RPC style API [sample](https://github.com/nagybalint001/swagger-generation/tree/master/Npm)
+RPC style API [sample](https://github.com/nagybalint001/swagger-codegen/tree/master/Npm)
