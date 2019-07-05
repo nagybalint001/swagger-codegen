@@ -5,6 +5,16 @@
       <span>Hello world !</span>
     </h1>
     <app-loader [isLoading]="isLoading"></app-loader>
+
+    <input type="file" id="file" (change)="onFileChange($event)" />
+    <button class="btn btn-success" (click)="upload()">Upload</button>
+
+    <br />
+
+    <button class="btn btn-success" (click)="download()">Download</button>
+
+    <br />
+
     <q [hidden]="isLoading">{{ data | json }}</q>
   </div>
 </div>

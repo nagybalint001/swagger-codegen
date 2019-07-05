@@ -432,12 +432,139 @@ export class SampleDataClient {
     }
     return _observableOf<void>(<any>null);
   }
+
+  upload(file?: FileParameter | null | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/api/SampleData/Upload';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = new FormData();
+    if (file !== null && file !== undefined) content_.append('file', file.data, file.fileName ? file.fileName : 'file');
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({})
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUpload(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUpload(<any>response_);
+            } catch (e) {
+              return <Observable<void>>(<any>_observableThrow(e));
+            }
+          } else return <Observable<void>>(<any>_observableThrow(response_));
+        })
+      );
+  }
+
+  protected processUpload(response: HttpResponseBase): Observable<void> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap(_responseText => {
+          return _observableOf<void>(<any>null);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap(_responseText => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf<void>(<any>null);
+  }
+
+  save(): Observable<FileResponse | null> {
+    let url_ = this.baseUrl + '/api/SampleData/Save';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'application/octet-stream'
+      })
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSave(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSave(<any>response_);
+            } catch (e) {
+              return <Observable<FileResponse | null>>(<any>_observableThrow(e));
+            }
+          } else return <Observable<FileResponse | null>>(<any>_observableThrow(response_));
+        })
+      );
+  }
+
+  protected processSave(response: HttpResponseBase): Observable<FileResponse | null> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200 || status === 206) {
+      const contentDisposition = response.headers ? response.headers.get('content-disposition') : undefined;
+      const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+      const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+      return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap(_responseText => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf<FileResponse | null>(<any>null);
+  }
 }
 
 export class MyOtherSampleModel implements IMyOtherSampleModel {
   someString?: string | undefined;
-  someDateTime?: Date;
-  someInt?: number;
+  someDateTime!: Date;
+  someInt!: number;
 
   constructor(data?: IMyOtherSampleModel) {
     if (data) {
@@ -473,17 +600,17 @@ export class MyOtherSampleModel implements IMyOtherSampleModel {
 
 export interface IMyOtherSampleModel {
   someString?: string | undefined;
-  someDateTime?: Date;
-  someInt?: number;
+  someDateTime: Date;
+  someInt: number;
 }
 
 export class MySampleModel implements IMySampleModel {
   someString?: string | undefined;
-  someDateTime?: Date;
-  someDateTimeOffset?: Date;
-  someInt?: number;
-  someEnum?: MyEnum;
-  someFlagsEnum?: MyFlagsEnum;
+  someDateTime!: Date;
+  someDateTimeOffset!: Date;
+  someInt!: number;
+  someEnum!: MyEnum;
+  someFlagsEnum!: MyFlagsEnum;
 
   constructor(data?: IMySampleModel) {
     if (data) {
@@ -527,11 +654,11 @@ export class MySampleModel implements IMySampleModel {
 
 export interface IMySampleModel {
   someString?: string | undefined;
-  someDateTime?: Date;
-  someDateTimeOffset?: Date;
-  someInt?: number;
-  someEnum?: MyEnum;
-  someFlagsEnum?: MyFlagsEnum;
+  someDateTime: Date;
+  someDateTimeOffset: Date;
+  someInt: number;
+  someEnum: MyEnum;
+  someFlagsEnum: MyFlagsEnum;
 }
 
 export enum MyEnum {
@@ -546,6 +673,18 @@ export enum MyFlagsEnum {
   Third = 4,
   Fourth = 8,
   Fifth = 16
+}
+
+export interface FileParameter {
+  data: any;
+  fileName: string;
+}
+
+export interface FileResponse {
+  data: Blob;
+  status: number;
+  fileName?: string;
+  headers?: { [name: string]: any };
 }
 
 export class ApiException extends Error {

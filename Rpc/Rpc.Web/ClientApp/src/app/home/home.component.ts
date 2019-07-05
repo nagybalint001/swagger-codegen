@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
+import { saveAs } from 'file-saver';
 
 import { SampleDataClient, MySampleModel } from '@app/api/app.generated';
 
@@ -11,6 +12,8 @@ import { SampleDataClient, MySampleModel } from '@app/api/app.generated';
 export class HomeComponent implements OnInit {
   data: MySampleModel[] | undefined;
   isLoading = false;
+
+  file: File;
 
   constructor(private sampleDataClient: SampleDataClient) {}
 
@@ -27,5 +30,24 @@ export class HomeComponent implements OnInit {
         console.log(data);
         this.data = data;
       });
+  }
+
+  upload() {
+    if (!this.file) {
+      return;
+    }
+
+    this.sampleDataClient.upload({ data: this.file, fileName: this.file.name }).subscribe(console.log);
+  }
+
+  onFileChange(event: any) {
+    console.log(event);
+    if (event.target.files.length > 0) {
+      this.file = event.target.files[0];
+    }
+  }
+
+  download() {
+    this.sampleDataClient.save().subscribe(x => saveAs(x.data, x.fileName));
   }
 }

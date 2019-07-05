@@ -21,7 +21,7 @@ namespace Rpc.Web
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddOpenApiDocument(c =>
+            services.AddSwaggerDocument(c =>
             {
                 c.Title = "SwaggerGeneration";
             });

@@ -1,14 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace Rpc.Web.Controllers
 {
     [Route("api/[controller]/[action]")]
     public class SampleDataController : Controller
     {
+        private static byte[] _uploadedFile = null;
+        private static string _fileName = null;
+        private static string _contentType = null;
         [HttpGet]
         public IEnumerable<MySampleModel> GetSomeData()
         {
@@ -33,6 +39,27 @@ namespace Rpc.Web.Controllers
         [HttpPost]
         public void DoSomethingElse()
         {
+        }
+
+        [HttpPost]
+        public void Upload(IFormFile file)
+        {
+            using (var ms = new MemoryStream())
+            {
+                file.CopyToAsync(ms);
+                _uploadedFile = ms.ToArray();
+                _fileName = file.FileName;
+                _contentType = file.ContentType;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Save()
+        {
+            if (_uploadedFile == null)
+                return new BadRequestResult();
+            Response.Headers[HeaderNames.ContentDisposition] = $"inline; filename={_fileName}";
+            return File(_uploadedFile, _contentType);
         }
 
         public enum MyEnum
